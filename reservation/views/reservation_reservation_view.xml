@@ -42,12 +42,24 @@
                         <group>
                             <field name="state" />
                         </group>
+                        
+                        <group>
+                            <field name="amount_total" />
+                        </group>
                     </group>
 
 
                     <notebook>
                         <page string="Reservation lines">
-                            <field name="line_ids"/>
+                            <field name="line_ids">
+                                <list>
+                                    <field name="quantity" />
+                                    <field name="unit_price" />
+                                    <field name="subtotal" />
+                                    <field name="product_id" />
+
+                                </list>
+                            </field>
                         </page>
                     </notebook>
 
