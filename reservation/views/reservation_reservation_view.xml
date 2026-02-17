@@ -6,12 +6,17 @@
         <field name="model">reservation.reservation</field>
         <field name="arch" type="xml">
             <form>
+                <div class="oe_button_box" name="button_box">
+                    <button/>
+
+                </div>
 
                 <sheet>
                     <header>
                         
-                        <button type="object" name="confirm" >Confirm</button>
-                        <field name="state" widget="statusbar" options="{'clickable': True}" />
+                        <button type="object" name="confirm" invisible="state == 'confirmed'">Confirm</button>
+                        <button type="object" name="cancel" invisible="state == 'cancelled'">Cancel</button>
+                        <field name="state" widget="statusbar" />
 
                     </header>
                     <group>
@@ -33,9 +38,6 @@
                             <field name="reservation_date" />
                         </group>
 
-                        <group>
-                            <field name="state" />
-                        </group>
                         
                         <group>
                             <field name="amount_total" />
@@ -46,7 +48,7 @@
                     <notebook>
                         <page string="Reservation lines">
                             <field name="line_ids">
-                                <list>
+                                <list editable="bottom">
                                     <field name="quantity" />
                                     <field name="unit_price" />
                                     <field name="subtotal" />

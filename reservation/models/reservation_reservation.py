@@ -56,6 +56,22 @@ class Reservation(models.Model):
 
         pass
 
+    def cancel(self):
+        if not len(self.line_ids) :
+            raise ValidationError("You should at least create one reservation line")
+
+        if self.state != 'confirmed':
+            raise ValidationError("You can't cancel an unconfirmed reservation")
+
+        
+        sale_order = self.env["sale.order"].search([('reservation_id', '=', self.id)])
+
+        for sale in sale_order: 
+            sale.state='cancel'
+
+        self.state = "cancelled"
+        
+
     
 
 
