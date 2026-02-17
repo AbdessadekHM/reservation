@@ -6,6 +6,16 @@ class SaleOrder(models.Model):
 
     reservation_id=fields.Many2one("reservation.reservation", unique=True)
 
+    def action_cancel(self):
+
+        reservation = self.env["reservation.reservation"].search([
+            ('id','=', self.reservation_id)
+        ])
+
+        reservation.state='cancelled'
+
+
+        return super().action_cancel()
 
 
 
