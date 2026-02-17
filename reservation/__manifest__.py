@@ -8,6 +8,7 @@
     "license": "LGPL-3",
 
     "data" : [
+        "data/ir_sequence_data.xml",
         "security/ir.model.access.csv",
         "views/reservation_reservation_view.xml",
         "views/reservation_menu.xml"
