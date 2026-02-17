@@ -1,0 +1,93 @@
+<odoo>
+
+    <template id="report_reservation_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="row mb32">
+                            <div class="col-6">
+                                <h2 class="text-primary" style="font-weight: bold;">
+                                    <span t-field="o.name"/>
+                                </h2>
+                            </div>
+                            <div class="col-6 text-end">
+                                <span t-attf-class="badge rounded-pill #{'bg-warning' if o.state == 'draft' else 'bg-success' if o.state == 'confirmed' else 'bg-danger'} p-2 px-3 text-uppercase" 
+                                    style="font-size: 0.9rem;">
+                                    <t t-if="o.state == 'draft'">Brouillon</t>
+                                    <t t-if="o.state == 'confirmed'">Confirmé</t>
+                                    <t t-if="o.state == 'cancelled'">Annulé</t>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <strong class="text-muted">Client Information</strong>
+                                <div class="mt-2">
+                                    <h5 t-field="o.partner_id.name" class="mb-0"/>
+                                    <div t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address", "phone"], "no_marker": True}'/>
+                                </div>
+                            </div>
+                            <div class="col-6 text-end">
+                                <strong class="text-muted">Reservation Date</strong>
+                                <p class="mt-2" t-field="o.reservation_date" t-options='{"widget": "date"}'/>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm o_main_table mt-4" name="reservation_line_table">
+                            <thead>
+                                <tr class="bg-200 text-uppercase" style="border-bottom: 2px solid #dee2e6;">
+                                    <th class="text-start">Product</th>
+                                    <th class="text-end">Quantity</th>
+                                    <th class="text-end">Unit Price</th>
+                                    <th class="text-end">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody class="reservation_tbody">
+                                <t t-foreach="o.line_ids" t-as="line">
+                                    <tr style="border-bottom: 1px solid #eee;">
+                                        <td class="text-start">
+                                            <span t-field="line.product_id.display_name"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.quantity"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.unit_price" 
+                                                />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.subtotal" 
+                                                />
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <div class="row justify-content-end" name="total">
+                            <div class="col-4">
+                                <table class="table table-sm">
+                                    <tr class="border-black o_total">
+                                        <td><strong>Total</strong></td>
+                                        <td class="text-end">
+                                            <strong t-field="o.amount_total" 
+                                                    />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="mt-5" t-if="o.state == 'cancelled'">
+                            <div class="alert alert-danger">
+                                <strong>Notice:</strong> This reservation has been officially cancelled and is no longer valid.
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
