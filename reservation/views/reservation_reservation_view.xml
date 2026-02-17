@@ -6,12 +6,16 @@
         <field name="model">reservation.reservation</field>
         <field name="arch" type="xml">
             <form>
-                <div class="oe_button_box" name="button_box">
-                    <button/>
-
-                </div>
 
                 <sheet>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="redirect_to_sales" widget="statinfo" class="oe_stat_button" title="Devices" icon="oi-text-break" string="Devices">
+                            <field name="amount_total" />
+
+                        </button>
+
+                    </div>
                     <header>
                         
                         <button type="object" name="confirm" invisible="state == 'confirmed'">Confirm</button>

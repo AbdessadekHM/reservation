@@ -14,7 +14,8 @@ class Reservation(models.Model):
         ('confirmed', 'Confirmed'),
         ('cancelled', 'Cancelled')
     ], default='draft')
-    sale_order_ids=fields.One2many("sale.order", "reservation_id")
+    sale_order_id=fields.One2many("sale.order", "reservation_id")
+    sale_order_id=fields.One2many("sale.order", "reservation_id")
     line_ids=fields.One2many("reservation.reservation.line", "reservation_id")
     amount_total=fields.Float(compute="_calculate_amount_total")
 
@@ -70,6 +71,22 @@ class Reservation(models.Model):
             sale.state='cancel'
 
         self.state = "cancelled"
+
+    def redirect_to_sales(self):
+
+        print("\n\n\n\n\n")
+        print("i get redirect")
+        print("\n\n\n\n\n")
+
+        return {
+            'name':'sale_order_window_action',
+            'type': 'ir.actions.act_window',
+            'res_model': 'sale.order',
+            'view_mode': 'form',
+            'res_id': self.sale_order_id.id,
+            'domain': [('reservation_id', '=', self.id)],
+        }
+        pass
         
 
     
