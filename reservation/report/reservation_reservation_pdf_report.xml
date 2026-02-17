@@ -6,7 +6,7 @@
         <field name="report_name">reservation.report_reservation_template</field>
         <field name="report_file">reservation.report_reservation_template</field>
         <field name="print_report_name">'Reservation - %s' % (object.name)</field>
-        <field name="binding_model_id" ref="reservation.model_reservation_reservation"/>
+        <!-- <field name="binding_model_id" ref="reservation.model_reservation_reservation"/> -->
         <field name="binding_type">report</field>
     </record>
 </odoo>

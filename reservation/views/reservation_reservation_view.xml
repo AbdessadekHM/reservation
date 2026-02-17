@@ -20,6 +20,7 @@
                         
                         <button type="object" name="confirm" invisible="state == 'confirmed'">Confirm</button>
                         <button type="object" name="cancel" invisible="state == 'cancelled'">Cancel</button>
+                        <button type="action" name="%(reservation.action_report_reservation)d" >print</button>
                         <field name="state" widget="statusbar" />
 
                     </header>
