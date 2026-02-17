@@ -1,0 +1,68 @@
+<odoo>
+
+
+    <!-- name=fields.Char(string="Reservation name")
+    partner_id=fields.Many2one("res.partner", "Client")
+    reservation_date=fields.Date(default=fields.Date.today())
+    state=fields.Selection([
+        ('draft', 'Draf'),
+        ('confirmed', 'Confirmed'),
+        ('cancelled', 'Cancelled')
+    ], default='draft')
+    sale_order_ids=fields.One2many("sale.order", "reservation_id")
+    line_ids=fields.One2many("reservation.reservation.line", "reservation_id")
+    amount_total=fields.Float(compute="") -->
+
+    <record id="reservation_reservation_form" model="ir.ui.view">
+        <field name="name">Reservation Form</field>
+        <field name="model">reservation.reservation</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <sheet>
+                    <group>
+
+                        <group col="1" style="width:100vw">
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" placeholder="Reservation Name" />
+                                </h1>
+
+                            </div>
+                        </group>
+
+                        <group>
+                            <field name="partner_id" />
+                        </group>
+
+                        <group>
+                            <field name="reservation_date" />
+                        </group>
+
+                        <group>
+                            <field name="state" />
+                        </group>
+                    </group>
+
+
+                    <notebook>
+                        <page string="Reservation lines">
+                            <field name="line_ids"/>
+                        </page>
+                    </notebook>
+
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+
+    </record>
+
+
+    <record id="reservation_window_action" model="ir.actions.act_window">
+        <field name="name">Reservations</field>
+        <field name="res_model">reservation.reservation</field>
+        <field name="view_mode">list,form</field>
+
+    </record>
+</odoo>

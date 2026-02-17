@@ -1,0 +1,10 @@
+<odoo>
+    <menuitem id="reservation_menu_root" name="Reservations">
+        <menuitem id="test" name="test">
+
+            <menuitem id="reservation_menu_action" action="reservation.reservation_window_action"/>
+
+        </menuitem>
+
+    </menuitem>
+</odoo>
