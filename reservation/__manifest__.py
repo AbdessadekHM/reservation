@@ -10,6 +10,7 @@
     "data" : [
         "data/ir_sequence_data.xml",
         "security/reservation_groups.xml",
+        "security/reservation_reservation_security.xml",
         "security/ir.model.access.csv",
         "views/reservation_reservation_view.xml",
         "views/reservation_menu.xml"
