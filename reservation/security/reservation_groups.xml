@@ -1,0 +1,20 @@
+<odoo>
+    <record id="reservation_groups_category" model="ir.module.category">
+        <field name="name">Reservation</field>
+        <field name="description">Reservation Category</field>
+        <field name="sequence">10</field>
+
+    </record>
+
+    <record id="reservation_groups_privileges" model="res.groups.privilege">
+        <field name="name">Reservation Privileges</field>
+        <field name="category_id" ref="reservation.reservation_groups_category" />
+
+    </record>
+
+    <record id="reservation_groups_users" model="res.groups">
+        <field name="name">Reservation Users</field>
+        <field name="privilege_id" ref="reservation.reservation_groups_privileges" />
+
+    </record>
+</odoo>
