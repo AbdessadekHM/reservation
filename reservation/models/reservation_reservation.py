@@ -1,4 +1,5 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, Command
+from odoo.exceptions import ValidationError #type:ignore
 
 class Reservation(models.Model):
     _name = "reservation.reservation"
@@ -27,6 +28,33 @@ class Reservation(models.Model):
     def _calculate_amount_total(self):
         for record in self:
             record.amount_total=sum([line.subtotal for line in record.line_ids])
+        
+
+    def confirm(self):
+        if not len(self.line_ids) :
+            raise ValidationError("You should at least create one reservation line")
+        
+        order_lines = []
+
+        for line in self.line_ids:
+            order_lines.append(
+                Command.create({
+                    "name": f"{line.reservation_id.name}",
+                    "product_id": line.product_id.id,
+                    "price_unit": line.unit_price,
+                    "product_uom_qty": line.quantity
+                })
+            )
+            pass
+        sale_order = self.env["sale.order"].create({
+            "partner_id": self.partner_id.id,
+            "reservation_id": self.id,
+            "order_line": order_lines
+            })
+        self.state = "confirmed"
+
+
+        pass
 
     
 

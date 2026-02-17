@@ -1,18 +1,6 @@
 <odoo>
 
 
-    <!-- name=fields.Char(string="Reservation name")
-    partner_id=fields.Many2one("res.partner", "Client")
-    reservation_date=fields.Date(default=fields.Date.today())
-    state=fields.Selection([
-        ('draft', 'Draf'),
-        ('confirmed', 'Confirmed'),
-        ('cancelled', 'Cancelled')
-    ], default='draft')
-    sale_order_ids=fields.One2many("sale.order", "reservation_id")
-    line_ids=fields.One2many("reservation.reservation.line", "reservation_id")
-    amount_total=fields.Float(compute="") -->
-
     <record id="reservation_reservation_form" model="ir.ui.view">
         <field name="name">Reservation Form</field>
         <field name="model">reservation.reservation</field>
@@ -20,6 +8,12 @@
             <form>
 
                 <sheet>
+                    <header>
+                        
+                        <button type="object" name="confirm" >Confirm</button>
+                        <field name="state" widget="statusbar" options="{'clickable': True}" />
+
+                    </header>
                     <group>
 
                         <group col="1" style="width:100vw">
