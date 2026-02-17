@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+reservation.access_reservation_reservation,access_reservation_reservation,reservation.model_reservation_reservation,base.group_user,1,1,1,1
+reservation.access_reservation_reservation_line,access_reservation_reservation_line,reservation.model_reservation_reservation_line,base.group_user,1,1,1,1
