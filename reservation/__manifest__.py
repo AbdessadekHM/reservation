@@ -1,8 +1,15 @@
 {
-    "name": "reservation_management",
+    "name": "reservation",
     "version" : "1.0",
     "author": "Abdessadek Hmiddouch",
-    "depends": ["base", "mail", "sale", "portal", "website"],
+    "depends": ["base", "mail", "sale_management", "portal", "website"],
     "category": "Reservation",
-    "description": "Reservation Module"
+    "description": "Reservation Module",
+    "license": "LGPL-3",
+
+    "data" : [
+        "security/ir.model.access.csv",
+        "views/reservation_reservation_view.xml",
+        "views/reservation_menu.xml"
+    ]
 }
