@@ -16,6 +16,7 @@
         "security/reservation_reservation_security.xml",
         "security/ir.model.access.csv",
         "views/reservation_reservation_view.xml",
-        "views/reservation_menu.xml"
+        "views/reservation_menu.xml",
+        "wizard/reservation_date_filter.xml"
     ]
 }

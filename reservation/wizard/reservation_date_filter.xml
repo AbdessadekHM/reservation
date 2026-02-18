@@ -1,0 +1,25 @@
+<odoo>
+    <record id="reservation_date_filter_form" model="ir.ui.view">
+        <field name="name">Reservation date filter form</field>
+        <field name="model">reservation.date.filter</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="reservation_date" />
+                    </group>
+
+                    <footer>
+                        <button string="Download Report" type="object" name="get_report" />
+                    </footer>
+
+                </sheet>
+
+
+            </form>
+
+        </field>
+        
+
+    </record>
+</odoo>

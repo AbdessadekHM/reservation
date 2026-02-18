@@ -78,9 +78,6 @@ class Reservation(models.Model):
 
     def redirect_to_sales(self):
 
-        print("\n\n\n\n\n")
-        print("i get redirect")
-        print("\n\n\n\n\n")
 
         return {
             'name':'sale_order_window_action',
@@ -92,7 +89,7 @@ class Reservation(models.Model):
         }
         pass
         
-    def print_test(self):
+    def print_report(self):
 
         selected_ids = self.env.context.get('active_ids',[])
         records = list()
@@ -116,11 +113,6 @@ class Reservation(models.Model):
         'res_id': self.id,
         'mimetype': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         })
-        print("\n\n\n")
-        print(attachment)
-        print(attachment.id)
-        print("\n\n\n")
-
         
         download_url = f'/web/content/{attachment.id}?download=true'
         return {
@@ -157,6 +149,14 @@ class Reservation(models.Model):
                         worksheet.write(row_idx, col_idx, cell)
             return buffer.getvalue()
 
+    def open_date_filter(self):
+
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "reservation.date.filter",
+            "view_mode": "form",
+            "target": "new"
+        }
 
 
     
