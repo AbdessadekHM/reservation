@@ -11,7 +11,8 @@ class Reservation(models.Model):
 
     name=fields.Char(string="Reservation name", default=lambda self: self._get_sequence_number(), readonly=True)
     partner_id=fields.Many2one("res.partner", "Client")
-    reservation_date=fields.Date(default=fields.Date.today())
+    reservation_start_date=fields.Date(default=fields.Date.today(), string="Start date")
+    reservation_end_date=fields.Date(default=fields.Date.today(), string="End date")
     state=fields.Selection([
         ('draft', 'Draf'),
         ('confirmed', 'Confirmed'),

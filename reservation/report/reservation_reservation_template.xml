@@ -31,7 +31,8 @@
                             </div>
                             <div class="col-6 text-end">
                                 <strong class="text-muted">Reservation Date</strong>
-                                <p class="mt-2" t-field="o.reservation_date" t-options='{"widget": "date"}'/>
+                                <p class="mt-2" t-field="o.reservation_start_date" t-options='{"widget": "date"}'/>
+                                <p class="mt-2" t-field="o.reservation_end_date" t-options='{"widget": "date"}'/>
                             </div>
                         </div>
 
