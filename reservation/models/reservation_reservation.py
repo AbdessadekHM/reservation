@@ -19,7 +19,6 @@ class Reservation(models.Model):
         ('cancelled', 'Cancelled')
     ], default='draft')
     sale_order_id=fields.One2many("sale.order", "reservation_id")
-    sale_order_id=fields.One2many("sale.order", "reservation_id")
     line_ids=fields.One2many("reservation.reservation.line", "reservation_id")
     amount_total=fields.Float(compute="_calculate_amount_total", store=True)
 
