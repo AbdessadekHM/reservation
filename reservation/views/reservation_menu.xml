@@ -1,8 +1,15 @@
 <odoo>
     <menuitem id="reservation_menu_root" name="Reservations">
-        <menuitem id="test" name="test">
+        <menuitem id="reservation_menu" name="Reservations">
 
             <menuitem id="reservation_menu_action" action="reservation.reservation_window_action"/>
+
+
+        </menuitem>
+
+        <menuitem id="reservation_report_menu" name="Report">
+
+            <menuitem id="reservation_report_menu_action" action="reservation.reservation_report_window_action"/>
 
         </menuitem>
 

@@ -1,0 +1,9 @@
+<odoo>
+    <record id="reservation_report_window_action" model="ir.actions.act_window">
+        <field name="name">Reservation Report</field>
+        <field name="res_model">reservation.reservation.report</field>
+        <field name="view_mode">list,pivot,graph</field>
+
+    </record>
+
+</odoo>
