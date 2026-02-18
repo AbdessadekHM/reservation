@@ -21,6 +21,7 @@ class ReservationReport(models.Model):
     ], default='draft', readonly=True, aggregator="sum")
     sale_order_id=fields.One2many("sale.order", "reservation_id")
     line_ids=fields.One2many("reservation.reservation.line", "reservation_id")
+    line_ids_count=fields.Integer(readonly=True, string="line ids number")
     total_volume=fields.Float(aggregator="sum", readonly=True)
 
 
