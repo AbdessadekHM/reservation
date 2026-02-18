@@ -1,5 +1,8 @@
 from odoo import models, fields, api, Command
 from odoo.exceptions import ValidationError #type:ignore
+from io import BytesIO
+import xlsxwriter  
+import base64
 
 class Reservation(models.Model):
     _name = "reservation.reservation"
@@ -88,6 +91,72 @@ class Reservation(models.Model):
         }
         pass
         
+    def print_test(self):
+
+        selected_ids = self.env.context.get('active_ids',[])
+        records = list()
+        rows = list()
+        for record_id in selected_ids:
+            record = self._get_record_by_id(record_id)
+            for line in record.line_ids:
+                rows.append([line.reservation_id.name, line.reservation_id.partner_id.name,line.product_id.name,line.quantity, line.subtotal])
+
+            records.append(record)
+        headers = ["reservation", "client", "produit","quantite","totale"]
+
+        excel = self._generate_excel(rows=rows, headers=headers)
+        excel_data = base64.b64encode(excel)
+
+        attachment = self.env['ir.attachment'].create({
+        'name': 'report.xlsx',
+        'type': 'binary',
+        'datas': excel_data,
+        'res_model': self._name,
+        'res_id': self.id,
+        'mimetype': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        })
+        print("\n\n\n")
+        print(attachment)
+        print(attachment.id)
+        print("\n\n\n")
+
+        
+        download_url = f'/web/content/{attachment.id}?download=true'
+        return {
+            'type': 'ir.actions.act_url',
+            'url': download_url,
+            'target': 'new',
+        }
+
+        
+
+
+
+
+
+
+
+
+    def _get_record_by_id(self, id):
+        record = self.env["reservation.reservation"].search([
+            ('id', '=', id)
+        ])
+
+        return record
+
+    def _generate_excel(self, rows, headers):
+        with BytesIO() as buffer:
+            with xlsxwriter.Workbook(buffer, {'in_memory': True}) as workbook:
+                worksheet = workbook.add_worksheet()
+
+                for col, header in enumerate(headers):
+                    worksheet.write(0, col, header)
+                for row_idx, row in enumerate(rows, start=1):
+                    for col_idx, cell in enumerate(row):
+                        worksheet.write(row_idx, col_idx, cell)
+            return buffer.getvalue()
+
+
 
     
 

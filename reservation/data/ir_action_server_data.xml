@@ -4,8 +4,10 @@
         <field name="model_id" ref="model_reservation_reservation"/>
         <field name="state">code</field>
         <field name="code">
-            
+action=model.print_test()
+
         </field>
+        <field name="binding_model_id" ref="model_reservation_reservation" />
 
     </record>
 </odoo>
