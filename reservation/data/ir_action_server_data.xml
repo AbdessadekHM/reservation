@@ -1,0 +1,11 @@
+<odoo>
+    <record id="reservation_server_action" model="ir.actions.server">
+        <field name="name">Print xls action</field>
+        <field name="model_id" ref="model_reservation_reservation"/>
+        <field name="state">code</field>
+        <field name="code">
+            
+        </field>
+
+    </record>
+</odoo>

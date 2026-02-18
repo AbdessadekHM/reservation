@@ -9,6 +9,7 @@
 
     "data" : [
         "data/ir_sequence_data.xml",
+        "data/ir_action_server_data.xml",
         "report/reservation_reservation_template.xml",
         "report/reservation_reservation_pdf_report.xml",
         "security/reservation_groups.xml",
