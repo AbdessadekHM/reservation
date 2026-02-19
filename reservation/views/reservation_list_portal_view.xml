@@ -24,7 +24,7 @@
                         </thead>
                         <tbody>
                             <t t-foreach="reservations" t-as="res">
-                                <tr>
+                                <tr t-attf-onclick="window.location.href='/my/reservations/#{res.id}';">
                                     <td>
                                         <a t-att-href="res.get_portal_url()">
                                             <t t-esc="res.name"/>
