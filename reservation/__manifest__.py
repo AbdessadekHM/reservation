@@ -10,7 +10,6 @@
     "data" : [
         "data/ir_sequence_data.xml",
         "data/ir_action_server_data.xml",
-        "data/portal_route.xml", # remember that
         "report/reservation_reservation_template.xml",
         "report/reservation_reservation_pdf_report.xml",
         "security/reservation_groups.xml",
@@ -22,5 +21,6 @@
         "views/reservation_menu.xml",
         "views/reservation_detail_page_portal_view.xml",
         "views/reservation_list_portal_view.xml",
+        "views/reservation_portal_card.xml" 
     ]
 }
