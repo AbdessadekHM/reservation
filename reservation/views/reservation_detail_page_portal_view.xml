@@ -1,0 +1,117 @@
+<odoo>
+    <template id="portal_my_reservation_detail" name="My Reservation Detail">
+        <t t-call="portal.portal_layout">
+            
+            <t t-set="ol_breadcrumb">
+                <li class="breadcrumb-item"><a href="/my/reservations">Reservations</a></li>
+                <li class="breadcrumb-item active"><t t-esc="reservation.name"/></li>
+            </t>
+
+            <div class="container bg-white pb-5">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white border-bottom-0 pt-4">
+                        <div class="row align-items-center">
+                            <div class="col-12 col-md-8">
+                                <h3 class="mb-1 text-primary">
+                                    Reservation <span t-field="reservation.name"/>
+                                </h3>
+                                <div class="text-muted small">
+                                    <i class="fa fa-calendar-o me-1"/> 
+                                    <strong>Period:</strong> 
+                                    <span t-field="reservation.reservation_start_date"/> 
+                                    <i class="fa fa-long-arrow-right mx-2"/> 
+                                    <span t-field="reservation.reservation_end_date"/>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4 text-md-end mt-3 mt-md-0">
+                                <t t-if="reservation.state == 'draft'">
+                                    <span class="badge rounded-pill text-bg-info p-2 px-3">
+                                        <i class="fa fa-fw fa-clock-o"/> Draft
+                                    </span>
+                                </t>
+                                <t t-if="reservation.state == 'confirmed'">
+                                    <span class="badge rounded-pill text-bg-success p-2 px-3">
+                                        <i class="fa fa-fw fa-check"/> Confirmed
+                                    </span>
+                                </t>
+                                <t t-if="reservation.state == 'cancelled'">
+                                    <span class="badge rounded-pill text-bg-danger p-2 px-3">
+                                        <i class="fa fa-fw fa-times"/> Cancelled
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body mt-3">
+                        <div class="row mb-5">
+                            <div class="col-12 col-md-6">
+                                <strong class="text-uppercase small text-muted">Customer Information</strong>
+                                <div class="mt-2">
+                                    <h5 t-field="reservation.partner_id.name" class="mb-0"/>
+                                    <div t-field="reservation.partner_id" 
+                                         t-options='{"widget": "contact", "fields": ["email", "phone"]}' 
+                                         class="text-muted small"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <section id="reservation_lines">
+                            <h5 class="mb-3 border-bottom pb-2">Line Items</h5>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th class="text-center">Quantity</th>
+                                            <th class="text-end">Unit Price</th>
+                                            <th class="text-end">Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="reservation.line_ids" t-as="line">
+                                            <tr>
+                                                <td>
+                                                    <span t-field="line.product_id.name"/><br/>
+                                                    <small class="text-muted" t-field="line.product_id.default_code"/>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span t-field="line.quantity"/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span t-field="line.unit_price"/>
+                                                </td>
+                                                <td class="text-end fw-bold">
+                                                    <span t-field="line.subtotal"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <div class="row justify-content-end mt-4">
+                            <div class="col-12 col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <div class="row mb-2">
+                                        <div class="col-6 text-muted">Total Quantity:</div>
+                                        <div class="col-6 text-end">
+                                            <t t-esc="sum(reservation.line_ids.mapped('quantity'))"/>
+                                        </div>
+                                    </div>
+                                    <div class="row border-top pt-2 mt-2">
+                                        <div class="col-6"><strong>Total Amount:</strong></div>
+                                        <div class="col-6 text-end h5 mb-0 text-primary">
+                                            <span t-field="reservation.amount_total"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
