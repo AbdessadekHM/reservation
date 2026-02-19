@@ -13,47 +13,24 @@ class ReservationPortal(CustomerPortal):
         ])
         values.update({
             'reservations': reservations,
-            'page_name': 'custom_records_page',
+            'page_name': 'my reservations',
         })
-
-        print("\n\n\n\n\n")
-        print("request received from the controller")
-        print(len(reservations))
-        print(request.env.user.id)
-        print(request.env.user.partner_id.id)
-        print("\n\n\n\n\n")
 
         return request.render("reservation.portal_my_reservations", values)
 
-        pass
 
     @http.route(["/my/reservations/<id>"], type="http", auth="user",website=True)
     def get_reservation(self, id):
 
-        # values = self._prepare_portal_layout_values()
         reservation = request.env["reservation.reservation"].search([
             ('id','=', id)
         ])
-
-
-        print("\n\n\n\n\n")
-        print("request received from the controller id")
-        print(len(reservation))
-        print(reservation)
-        print(reservation.name)
-        print(request.env.user.id)
-        print(request.env.user.partner_id.id)
-        print("\n\n\n\n\n")
-        # values.update({
-        #     "reservation": reservation
-        # })
 
         return request.render("reservation.portal_my_reservation_detail", {
             "reservation":reservation,
             "page_name": "reservation detail"
         })
 
-        pass
     @http.route(["/my/reservations/pdf/<id>"], type="http")
     def get_pdf(self, id):
         reservation = request.env["reservation.reservation"].search([
@@ -74,6 +51,4 @@ class ReservationPortal(CustomerPortal):
 
 
 
-        pass
 
-    pass

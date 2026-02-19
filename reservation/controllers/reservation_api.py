@@ -14,13 +14,6 @@ class ReservationController(http.Controller):
 
         data=request.get_json_data()
 
-        print("\n\n\n\n\n\n\n")
-        print("request received")
-        print("partner_id")
-        print(data)
-        print(kwargs)
-
-
 
         request.env["reservation.reservation"].create(data)
 
@@ -31,8 +24,6 @@ class ReservationController(http.Controller):
         reservation = request.env["reservation.reservation"].search([
             ('id', '=', id)
         ])
-        print("\n\n\n")
-        print(reservation)
         data = {
             "name" : reservation.name,
             "partner_id": reservation.partner_id.name,
@@ -40,8 +31,7 @@ class ReservationController(http.Controller):
             "reservation_end_date": reservation.reservation_end_date
             
         }
-        # return request.make_json_response(data)
-        return {"data":data}
+        return {"data" : data}
 
 
     @http.route(['/api/reservations'], methods=['GET'], type='jsonrpc', auth="user" )
@@ -73,8 +63,8 @@ class ReservationController(http.Controller):
         
         reservation.confirm()
 
+        return {"status": 200, "message":"Reservation is comfirmed sucessfully"}
 
-        pass
 
     @http.route(['/api/reservation/<id>/cancel'], methods=['GET'], type='jsonrpc', auth="user" )
     def cancel_reservation(self, id):
@@ -86,6 +76,8 @@ class ReservationController(http.Controller):
             return
         
         reservation.cancel()
+
+        return {"status": 200, "message":"Reservation is cancelled sucessfully"}
 
 
 
