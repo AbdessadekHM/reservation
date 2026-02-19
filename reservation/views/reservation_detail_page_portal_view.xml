@@ -29,6 +29,13 @@
                                         <i class="fa fa-fw fa-clock-o"/> Draft
                                     </span>
                                 </t>
+                                    <a t-attf-href="/my/reservations/pdf/#{reservation.id}" 
+                                    class="btn btn-secondary btn-sm" 
+                                    title="Download PDF" 
+                                    target="_blank">
+                                        <i class="fa fa-download"/> Download
+                                    </a>
+    
                                 <t t-if="reservation.state == 'confirmed'">
                                     <span class="badge rounded-pill text-bg-success p-2 px-3">
                                         <i class="fa fa-fw fa-check"/> Confirmed
