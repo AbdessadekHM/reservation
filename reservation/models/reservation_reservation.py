@@ -7,7 +7,7 @@ import base64
 class Reservation(models.Model):
     _name = "reservation.reservation"
     _description="table of reservation"
-    _inherit=["mail.thread", "portal.mixin"]
+    _inherit=["mail.thread", "portal.mixin","mail.activity.mixin"]
 
     name=fields.Char(string="Reservation name", default=lambda self: self._get_sequence_number(), readonly=True)
     partner_id=fields.Many2one("res.partner", "Client")
