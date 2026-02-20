@@ -4,13 +4,17 @@
         <field name="name">Reservation List</field>
         <field name="model">reservation.reservation</field>
         <field name="arch" type="xml">
-            <list>
+            <list decoration-success="state=='confirmed'" decoration-danger="state=='cancelled'">
                 <header>
                     <button string="Print xls" type="object" name="open_date_filter"/>
                 </header>
 
                 <field name="name" />
                 <field name="amount_total" />
+                <field name="partner_id"/>
+                <field name="reservation_start_date" />
+                <field name="reservation_end_date" />
+                <field name="state" />
 
 
             </list>
