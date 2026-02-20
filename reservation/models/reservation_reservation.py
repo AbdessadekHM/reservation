@@ -18,9 +18,10 @@ class Reservation(models.Model):
         ('confirmed', 'Confirmed'),
         ('cancelled', 'Cancelled')
     ], default='draft')
-    sale_order_id=fields.One2many("sale.order", "reservation_id")
+    sale_order_ids=fields.One2many("sale.order", "reservation_id")
     line_ids=fields.One2many("reservation.reservation.line", "reservation_id")
     amount_total=fields.Float(compute="_calculate_amount_total", store=True)
+
 
     def _get_sequence_number(self):
 
@@ -50,11 +51,23 @@ class Reservation(models.Model):
                 })
             )
             pass
-        sale_order = self.env["sale.order"].create({
-            "partner_id": self.partner_id.id,
-            "reservation_id": self.id,
-            "order_line": order_lines
-            })
+        if not self.sale_order_ids:
+            self.env["sale.order"].create({
+                "partner_id": self.partner_id.id,
+                "reservation_id": self.id,
+                "order_line": order_lines
+                })
+        else: 
+
+
+            self.env["sale.order"].search([
+                ('id', '=', self.sale_order_ids)
+            ]).write({
+                "partner_id": self.partner_id.id,
+                "reservation_id": self.id,
+                "order_line": order_lines,
+                "state": "draft"
+                })
         self.state = "confirmed"
 
 
@@ -83,7 +96,7 @@ class Reservation(models.Model):
             'type': 'ir.actions.act_window',
             'res_model': 'sale.order',
             'view_mode': 'form',
-            'res_id': self.sale_order_id.id,
+            'res_id': self.sale_order_ids.id,
             'domain': [('reservation_id', '=', self.id)],
         }
         pass

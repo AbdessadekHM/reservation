@@ -6,6 +6,11 @@ class SaleOrder(models.Model):
 
     reservation_id=fields.Many2one("reservation.reservation", unique=True)
 
+    _check_unique_sale=models.Constraint(
+        'unique(reservation_id)',
+        'a sale order is already created for this reservation'
+    )
+
     def action_cancel(self):
 
         reservation = self.env["reservation.reservation"].search([
