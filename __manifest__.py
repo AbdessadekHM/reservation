@@ -1,13 +1,12 @@
 {
     "name": "reservation",
-    "version" : "1.0",
+    "version": "1.0",
     "author": "Abdessadek Hmiddouch",
     "depends": ["base", "mail", "sale_management", "portal", "website"],
     "category": "Reservation",
     "description": "Reservation Module",
     "license": "LGPL-3",
-
-    "data" : [
+    "data": [
         "data/ir_sequence_data.xml",
         "data/ir_action_server_data.xml",
         "report/reservation_reservation_template.xml",
@@ -21,6 +20,6 @@
         "views/reservation_menu.xml",
         "views/reservation_detail_page_portal_view.xml",
         "views/reservation_list_portal_view.xml",
-        "views/reservation_portal_card.xml" 
-    ]
+        "views/reservation_portal_card.xml",
+    ],
 }

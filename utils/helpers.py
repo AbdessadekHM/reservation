@@ -4,7 +4,7 @@ import xlsxwriter
 
 def generate_excel(rows, headers):
     with BytesIO() as buffer:
-        with xlsxwriter.Workbook(buffer, {'in_memory': True}) as workbook:
+        with xlsxwriter.Workbook(buffer, {"in_memory": True}) as workbook:
             worksheet = workbook.add_worksheet()
 
             for col, header in enumerate(headers):
