@@ -1,10 +1,9 @@
 from odoo import models, fields
 
 class SaleOrder(models.Model):
-    _name = "sale.order"
     _inherit="sale.order"
 
-    reservation_id=fields.Many2one("reservation.reservation", unique=True)
+    reservation_id=fields.Many2one("reservation.reservation")
 
     _check_unique_sale=models.Constraint(
         'unique(reservation_id)',
