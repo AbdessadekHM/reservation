@@ -15,13 +15,13 @@ class Reservation(models.Model):
         default=lambda self: self._get_sequence_number(),
         readonly=True,
     )
-    partner_id = fields.Many2one("res.partner", "Client")
+    partner_id = fields.Many2one("res.partner", "Client", required=True)
     reservation_start_date = fields.Date(
-        default=fields.Date.today(), string="Start date"
+        default=fields.Date.today(), string="Reservation start date"
     )
-    reservation_end_date = fields.Date(default=fields.Date.today(), string="End date")
+    reservation_end_date = fields.Date(default=fields.Date.today(), string="Reservation end date")
     state = fields.Selection(
-        [("draft", "Draf"), ("confirmed", "Confirmed"), ("cancelled", "Cancelled")],
+        [("draft", "Draft"), ("confirmed", "Confirmed"), ("cancelled", "Cancelled")],
         default="draft",
     )
     sale_order_ids = fields.One2many("sale.order", "reservation_id")

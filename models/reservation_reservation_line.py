@@ -6,7 +6,7 @@ class ReservationLine(models.Model):
     _description = "table of reservation lines"
 
     reservation_id = fields.Many2one("reservation.reservation", readonly=True)
-    product_id = fields.Many2one("product.product")
+    product_id = fields.Many2one("product.product", required=True)
 
     quantity = fields.Integer(string="Quantity")
     unit_price = fields.Float(string="Price")
