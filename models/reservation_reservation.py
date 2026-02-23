@@ -19,7 +19,9 @@ class Reservation(models.Model):
     reservation_start_date = fields.Date(
         default=fields.Date.today(), string="Reservation start date"
     )
-    reservation_end_date = fields.Date(default=fields.Date.today(), string="Reservation end date")
+    reservation_end_date = fields.Date(
+        default=fields.Date.today(), string="Reservation end date"
+    )
     state = fields.Selection(
         [("draft", "Draft"), ("confirmed", "Confirmed"), ("cancelled", "Cancelled")],
         default="draft",

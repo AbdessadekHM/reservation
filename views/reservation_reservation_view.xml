@@ -34,8 +34,9 @@
 
                     <div class="oe_button_box" name="button_box">
                         <button type="object" name="redirect_to_sales" widget="statinfo" class="oe_stat_button" title="Devices" icon="oi-text-break" string="Devices" invisible="not state=='confirmed'">
-                            total 
-                            <field name="amount_total" />
+                                
+                            <span >total: </span>
+                            <field name="amount_total"  />
 
                         </button>
 
@@ -84,9 +85,9 @@
                         <page string="Reservation lines">
                             <field name="line_ids">
                                 <list editable="bottom" readonly="True">
-                                    <field name="quantity" />
-                                    <field name="unit_price" />
                                     <field name="product_id" />
+                                    <field name="unit_price" />
+                                    <field name="quantity" />
                                     <field name="subtotal" />
 
                                 </list>

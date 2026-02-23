@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError  # type: ignore
 from ..utils.helpers import generate_excel
 import base64
 
@@ -16,8 +17,13 @@ class DateFilter(models.TransientModel):
             [
                 ("id", "in", selected_ids),
                 ("reservation_end_date", ">", self.reservation_date),
+                ("reservation_start_date", "<", self.reservation_date),
             ]
         )
+
+        if not records:
+            raise ValidationError("There is no reservation at that time")
+
         rows = list()
         for record in records:
             for line in record.line_ids:
