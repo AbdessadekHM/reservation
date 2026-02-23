@@ -1,5 +1,5 @@
 from odoo import models, fields, api, Command
-from odoo.exceptions import ValidationError #type:ignore
+from odoo.exceptions import ValidationError, UserError #type:ignore
 from io import BytesIO
 import xlsxwriter  
 import base64
@@ -9,7 +9,7 @@ class Reservation(models.Model):
     _description="table of reservation"
     _inherit=["mail.thread", "portal.mixin","mail.activity.mixin"]
 
-    name=fields.Char(string="Reservation name", default=lambda self: self._get_sequence_number(), readonly=True)
+    name = fields.Char(string="Reservation name", default=lambda self: self._get_sequence_number(), readonly=True)
     partner_id=fields.Many2one("res.partner", "Client")
     reservation_start_date=fields.Date(default=fields.Date.today(), string="Start date")
     reservation_end_date=fields.Date(default=fields.Date.today(), string="End date")
@@ -39,9 +39,15 @@ class Reservation(models.Model):
         if not len(self.line_ids) :
             raise ValidationError("You should at least create one reservation line")
         
+
+
+        
         order_lines = []
 
         for line in self.line_ids:
+
+
+
             order_lines.append(
                 Command.create({
                     "name": f"{line.reservation_id.name}",
@@ -59,10 +65,21 @@ class Reservation(models.Model):
                 })
         else: 
 
+            sale_order = self.env["sale.order"].search(
+                [('reservation_id','=',self.id)]
+            )
 
-            self.env["sale.order"].search([
-                ('id', '=', self.sale_order_ids)
-            ]).write({
+            if not sale_order:
+                raise UserError("There is no sale order for this reservation")
+            sale_lines = self.env["sale.order.line"].search(
+                [('order_id','=', sale_order.id)]
+            ) 
+
+            sale_lines.unlink()
+        
+
+
+            sale_order.write({
                 "partner_id": self.partner_id.id,
                 "reservation_id": self.id,
                 "order_line": order_lines,
