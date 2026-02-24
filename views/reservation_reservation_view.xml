@@ -44,7 +44,7 @@
                     <header>
                         
                         <button class="btn btn-primary" type="object" name="confirm" invisible="state == 'confirmed'">Confirm</button>
-                        <button type="object" name="cancel" invisible="state == 'cancelled'">Cancel</button>
+                        <button confirm="Are you sure you want to cancel" type="object" name="cancel" invisible="state == 'cancelled'">Cancel</button>
                         <button type="object" name="print_pdf_report" >print</button>
                         <field name="state" widget="statusbar" />
 
