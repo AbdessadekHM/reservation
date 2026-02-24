@@ -22,10 +22,16 @@ class ReservationController(http.Controller):
 
             req = request.get_json_data()
 
-            data = req["params"]["args"][5]
-            print("\n\n\n\n\n\n")
-            print(data)
-            print("\n\n\n\n\n\n")
+            if not 'params' in req.keys():
+                raise Exception("There is no params in request data")
+
+            
+            params = req["params"]
+            if not 'args' in params:
+                raise Exception("There is no args in params data")
+
+
+            data = params["args"][5]
             request.env["reservation.reservation"].create(data)
 
             return {
@@ -37,6 +43,8 @@ class ReservationController(http.Controller):
             return {"status": "error", "code": 401, "message": e.args[0]}
         except AccessError:
             return {"status": "error", "code": 403, "message": "Access not allowed"}
+        except Exception as e:
+            return {"status": "error", "code": 401, "message": e.args[0]}
 
     @http.route(
         ["/api/reservation/<id>"],
