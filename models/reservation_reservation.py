@@ -190,6 +190,14 @@ class Reservation(models.Model):
             "target": "new",
         }
 
+
+    def write(self, val_list):
+
+        if 'line_ids' in val_list.keys() and self.state != 'draft':
+            self.state='draft'
+
+        return super().write(val_list)
+
     def print_pdf_report(self):
         report = self.env.ref('reservation.report_reservation_template')
 
