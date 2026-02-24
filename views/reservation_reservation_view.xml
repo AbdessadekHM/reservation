@@ -35,7 +35,7 @@
                     <div class="oe_button_box" name="button_box">
                         <button type="object" name="redirect_to_sales" widget="statinfo" class="oe_stat_button" title="Devices" icon="fa-usd" string="Devices" invisible="not state!='draft'">
 
-                            <span class="o_stat_text">Sale Orders</span>
+                            <field name="amount_total" widget="statinfo" />
                                 
 
                         </button>
@@ -43,7 +43,7 @@
                     </div>
                     <header>
                         
-                        <button type="object" name="confirm" invisible="state == 'confirmed'">Confirm</button>
+                        <button class="btn btn-primary" type="object" name="confirm" invisible="state == 'confirmed'">Confirm</button>
                         <button type="object" name="cancel" invisible="state == 'cancelled'">Cancel</button>
                         <button type="object" name="print_pdf_report" >print</button>
                         <field name="state" widget="statusbar" />
