@@ -189,3 +189,9 @@ class Reservation(models.Model):
             "view_mode": "form",
             "target": "new",
         }
+
+    def print_pdf_report(self):
+        report = self.env.ref('reservation.report_reservation_template')
+
+        return report.report_action(self)
+

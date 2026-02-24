@@ -33,10 +33,10 @@
                 <sheet>
 
                     <div class="oe_button_box" name="button_box">
-                        <button type="object" name="redirect_to_sales" widget="statinfo" class="oe_stat_button" title="Devices" icon="oi-text-break" string="Devices" invisible="not state=='confirmed'">
+                        <button type="object" name="redirect_to_sales" widget="statinfo" class="oe_stat_button" title="Devices" icon="fa-usd" string="Devices" invisible="not state!='draft'">
+
+                            <span class="o_stat_text">Sale Orders</span>
                                 
-                            <span >total: </span>
-                            <field name="amount_total"  />
 
                         </button>
 
@@ -45,7 +45,7 @@
                         
                         <button type="object" name="confirm" invisible="state == 'confirmed'">Confirm</button>
                         <button type="object" name="cancel" invisible="state == 'cancelled'">Cancel</button>
-                        <button type="action" name="%(reservation.action_report_reservation)d" >print</button>
+                        <button type="object" name="print_pdf_report" >print</button>
                         <field name="state" widget="statusbar" />
 
                     </header>

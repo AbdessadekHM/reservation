@@ -16,8 +16,8 @@ class DateFilter(models.TransientModel):
         records = self.env["reservation.reservation"].search(
             [
                 ("id", "in", selected_ids),
-                ("reservation_end_date", ">", self.reservation_date),
-                ("reservation_start_date", "<", self.reservation_date),
+                ("reservation_end_date", ">=", self.reservation_date),
+                ("reservation_start_date", "<=", self.reservation_date),
             ]
         )
 
