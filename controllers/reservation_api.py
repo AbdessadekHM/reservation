@@ -20,7 +20,12 @@ class ReservationController(http.Controller):
 
         try:
 
-            data = request.get_json_data()
+            req = request.get_json_data()
+
+            data = req['params']['args'][5]
+            print("\n\n\n\n\n\n")
+            print(data)
+            print("\n\n\n\n\n\n")
             request.env["reservation.reservation"].create(data)
 
             return {
