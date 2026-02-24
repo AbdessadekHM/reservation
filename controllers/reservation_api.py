@@ -22,7 +22,7 @@ class ReservationController(http.Controller):
 
             req = request.get_json_data()
 
-            data = req['params']['args'][5]
+            data = req["params"]["args"][5]
             print("\n\n\n\n\n\n")
             print(data)
             print("\n\n\n\n\n\n")
