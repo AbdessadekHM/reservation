@@ -193,8 +193,8 @@ class Reservation(models.Model):
 
     def write(self, val_list):
 
-        if "line_ids" in val_list.keys() and self.state != "draft":
-            self.state = "draft"
+        if self.state != "draft":
+            val_list["state"] = "draft"
 
         return super().write(val_list)
 
