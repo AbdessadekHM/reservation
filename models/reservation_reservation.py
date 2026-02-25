@@ -29,6 +29,7 @@ class Reservation(models.Model):
     sale_order_ids = fields.One2many("sale.order", "reservation_id")
     line_ids = fields.One2many("reservation.reservation.line", "reservation_id")
     amount_total = fields.Float(compute="_calculate_amount_total", store=True)
+    total = fields.Integer(related="sale_order_ids.amount_total")
 
     def _get_sequence_number(self):
 

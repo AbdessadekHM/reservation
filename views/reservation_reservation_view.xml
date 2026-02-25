@@ -35,7 +35,7 @@
                     <div class="oe_button_box" name="button_box">
                         <button type="object" name="redirect_to_sales" widget="statinfo" class="oe_stat_button" title="Devices" icon="fa-usd" string="Devices" invisible="not state!='draft'">
 
-                            <field name="amount_total" widget="statinfo" />
+                            <field name="total" widget="statinfo" />
                                 
 
                         </button>
@@ -84,7 +84,7 @@
                     <notebook>
                         <page string="Reservation lines">
                             <field name="line_ids">
-                                <list editable="bottom" readonly="True">
+                                <list editable="bottom">
                                     <field name="product_id" />
                                     <field name="unit_price" />
                                     <field name="quantity" />
