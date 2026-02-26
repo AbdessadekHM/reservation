@@ -30,6 +30,15 @@
         <field name="arch" type="xml">
             <form>
 
+
+                <header>
+                        
+                    <button class="btn btn-primary" type="object" name="confirm" invisible="state == 'confirmed'">Confirm</button>
+                    <button confirm="Are you sure you want to cancel" type="object" name="cancel" invisible="state == 'cancelled'">Cancel</button>
+                    <button type="object" name="print_pdf_report" >print</button>
+                    <field name="state" widget="statusbar" />
+
+                </header>
                 <sheet>
 
                     <div class="oe_button_box" name="button_box">
@@ -41,43 +50,34 @@
                         </button>
 
                     </div>
-                    <header>
-                        
-                        <button class="btn btn-primary" type="object" name="confirm" invisible="state == 'confirmed'">Confirm</button>
-                        <button confirm="Are you sure you want to cancel" type="object" name="cancel" invisible="state == 'cancelled'">Cancel</button>
-                        <button type="object" name="print_pdf_report" >print</button>
-                        <field name="state" widget="statusbar" />
 
-                    </header>
+                    <group >
+                        <div colspan="1" class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Reservation Name" />
+                            </h1>
+
+                        </div>
+                    </group>
+
                     <group>
-
-                        <group col="1" style="width:100vw">
-                            <div class="oe_title">
-                                <h1>
-                                    <field name="name" placeholder="Reservation Name" />
-                                </h1>
-
-                            </div>
-                        </group>
-
-                        <group>
+                        <group colspan="1">
                             <field name="partner_id" />
                         </group>
 
-                        <group>
-                            <group>
-                                <field name="reservation_start_date" />
-                            </group>
 
-                            <group>
-                                <field name="reservation_end_date" />
-                            </group>
+                        <group>
+                            <field name="reservation_start_date" />
                         </group>
 
-                        
                         <group>
                             <field name="amount_total" />
                         </group>
+                        <group>
+                            <field name="reservation_end_date" />
+                        </group>
+
+                        
                     </group>
 
 
