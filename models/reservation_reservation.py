@@ -193,7 +193,7 @@ class Reservation(models.Model):
 
     def write(self, val_list):
 
-        if self.state != "draft" and val_list["state"] != "draft":
+        if self.state != "draft" and ( "state" not in val_list.keys() or val_list["state"] != "draft"):
             val_list["state"] = "draft"
 
         return super().write(val_list)
