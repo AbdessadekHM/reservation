@@ -48,21 +48,20 @@ class Reservation(models.Model):
         if not len(self.line_ids):
             raise ValidationError("You should at least create one reservation line")
 
-        order_lines = []
+        order_lines = [
 
-        for line in self.line_ids:
-
-            order_lines.append(
-                Command.create(
-                    {
-                        "name": f"{line.reservation_id.name}",
-                        "product_id": line.product_id.id,
-                        "price_unit": line.unit_price,
-                        "product_uom_qty": line.quantity,
-                    }
-                )
+            Command.create(
+                {
+                    "name": f"{line.reservation_id.name}",
+                    "product_id": line.product_id.id,
+                    "price_unit": line.unit_price,
+                    "product_uom_qty": line.quantity,
+                }
             )
-            pass
+            for line in self.line_ids
+            
+        ]
+
         if not self.sale_order_ids:
             self.env["sale.order"].create(
                 {
@@ -95,7 +94,6 @@ class Reservation(models.Model):
             )
         self.state = "confirmed"
 
-        pass
 
     def cancel(self):
         if not len(self.line_ids):
