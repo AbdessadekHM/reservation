@@ -30,15 +30,19 @@ class Reservation(models.Model):
     line_ids = fields.One2many("reservation.reservation.line", "reservation_id")
     amount_total = fields.Float(compute="_calculate_amount_total", store=True)
 
-
-
-    company_id = fields.Many2one('res.company', store=True, copy=False,
-                                string="Company",
-                                default=lambda self: self.env.user.company_id.id)
-    currency_id = fields.Many2one('res.currency', string="Currency",
-                                 related='company_id.currency_id',
-                                 default=lambda
-                                 self: self.env.user.company_id.currency_id.id)
+    company_id = fields.Many2one(
+        "res.company",
+        store=True,
+        copy=False,
+        string="Company",
+        default=lambda self: self.env.user.company_id.id,
+    )
+    currency_id = fields.Many2one(
+        "res.currency",
+        string="Currency",
+        related="company_id.currency_id",
+        default=lambda self: self.env.user.company_id.currency_id.id,
+    )
     total = fields.Monetary(related="sale_order_ids.amount_total")
 
     def _get_sequence_number(self):
@@ -66,7 +70,6 @@ class Reservation(models.Model):
 
     def _update_sale_order(self, partner_id, reservation_id, order_lines):
 
-
         sale_order = self.env["sale.order"].search(
             [("reservation_id", "=", reservation_id)]
         )
@@ -93,7 +96,6 @@ class Reservation(models.Model):
             raise ValidationError("You should at least create one reservation line")
 
         order_lines = [
-
             Command.create(
                 {
                     "name": f"{line.reservation_id.name}",
@@ -103,15 +105,21 @@ class Reservation(models.Model):
                 }
             )
             for line in self.line_ids
-            
         ]
 
         if not self.sale_order_ids:
-            self._create_sale_order(partner_id=self.partner_id.id, reservation_id=self.id, order_lines=order_lines)
+            self._create_sale_order(
+                partner_id=self.partner_id.id,
+                reservation_id=self.id,
+                order_lines=order_lines,
+            )
         else:
-            self._update_sale_order(partner_id=self.partner_id.id, reservation_id=self.id, order_lines=order_lines)
+            self._update_sale_order(
+                partner_id=self.partner_id.id,
+                reservation_id=self.id,
+                order_lines=order_lines,
+            )
         self.state = "confirmed"
-
 
     def cancel(self):
         if not len(self.line_ids):
@@ -138,6 +146,7 @@ class Reservation(models.Model):
             "domain": [("reservation_id", "=", self.id)],
         }
         pass
+
     def _create_xls_rows(self, selected_ids):
 
         rows = list()
@@ -154,7 +163,6 @@ class Reservation(models.Model):
                     ]
                 )
         return rows
-
 
     def print_report(self):
 

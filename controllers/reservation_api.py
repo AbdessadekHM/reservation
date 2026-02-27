@@ -22,14 +22,12 @@ class ReservationController(http.Controller):
 
             req = request.get_json_data()
 
-            if not 'params' in req.keys():
+            if not "params" in req.keys():
                 raise Exception("There is no params in request data")
 
-            
             params = req["params"]
-            if not 'args' in params:
+            if not "args" in params:
                 raise Exception("There is no args in params data")
-
 
             data = params["args"][5]
             request.env["reservation.reservation"].create(data)

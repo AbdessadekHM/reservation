@@ -16,7 +16,9 @@ class SaleOrder(models.Model):
     @api.depends("order_line")
     def _calculate_total_amount(self):
         for record in self:
-            record.amount_total = sum([line.price_unit * line.product_uom_qty for line in record.order_line])
+            record.amount_total = sum(
+                [line.price_unit * line.product_uom_qty for line in record.order_line]
+            )
 
     def write(self, val_list):
 
@@ -27,24 +29,20 @@ class SaleOrder(models.Model):
 
         super().write(val_list)
 
+        reservation = self.env["reservation.reservation"].search(
+            [("id", "=", self.reservation_id)]
+        )
 
-        reservation = self.env["reservation.reservation"].search([
-            ('id', '=', self.reservation_id)
-        ])
-
-        reservation_lines = self.env["reservation.reservation.line"].search([
-            ('reservation_id','=',self.reservation_id)
-        ])
+        reservation_lines = self.env["reservation.reservation.line"].search(
+            [("reservation_id", "=", self.reservation_id)]
+        )
 
         data = {}
 
-        if "order_line" in val_list.keys() :
+        if "order_line" in val_list.keys():
             print("we've get this")
 
-
-
             lines_ids = [
-
                 Command.create(
                     {
                         "product_id": line.product_id.id,
@@ -53,13 +51,12 @@ class SaleOrder(models.Model):
                     }
                 )
                 for line in self.order_line
-            
             ]
             data["line_ids"] = lines_ids
-        
+
         if "partner_id" in val_list.keys():
             data["partner_id"] = val_list["partner_id"]
-        
+
         if len(data.keys()) > 0:
             data["state"] = "confirmed"
 
@@ -71,16 +68,14 @@ class SaleOrder(models.Model):
             reservation.write(data)
             print("normally data should be saved")
 
-
     def action_draft(self):
 
         reservation = self.env["reservation.reservation"].search(
-            [('id', '=', self.reservation_id)]
+            [("id", "=", self.reservation_id)]
         )
         reservation.confirm()
 
         return super().action_draft()
-        
 
     def action_cancel(self):
 
