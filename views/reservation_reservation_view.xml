@@ -94,6 +94,9 @@
                         <page string="Reservation lines">
                             <field name="line_ids">
                                 <list editable="bottom">
+                                    <control>
+                                        <create name="add_reservation_line_control" string="Add a reservation line"/>
+                                    </control>
                                     <field name="product_id" />
                                     <field name="unit_price" />
                                     <field name="quantity" />
