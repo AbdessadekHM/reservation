@@ -54,6 +54,40 @@ class Reservation(models.Model):
         for record in self:
             record.amount_total = sum([line.subtotal for line in record.line_ids])
 
+    def _create_sale_order(self, partner_id, reservation_id, order_lines):
+
+        self.env["sale.order"].create(
+            {
+                "partner_id": partner_id,
+                "reservation_id": reservation_id,
+                "order_line": order_lines,
+            }
+        )
+
+    def _update_sale_order(self, partner_id, reservation_id, order_lines):
+
+
+        sale_order = self.env["sale.order"].search(
+            [("reservation_id", "=", reservation_id)]
+        )
+
+        if not sale_order:
+            raise UserError("There is no sale order for this reservation")
+        sale_lines = self.env["sale.order.line"].search(
+            [("order_id", "=", sale_order.id)]
+        )
+
+        sale_lines.unlink()
+
+        sale_order.write(
+            {
+                "partner_id": partner_id,
+                "reservation_id": reservation_id,
+                "order_line": order_lines,
+                "state": "draft",
+            }
+        )
+
     def confirm(self):
         if not len(self.line_ids):
             raise ValidationError("You should at least create one reservation line")
@@ -73,35 +107,9 @@ class Reservation(models.Model):
         ]
 
         if not self.sale_order_ids:
-            self.env["sale.order"].create(
-                {
-                    "partner_id": self.partner_id.id,
-                    "reservation_id": self.id,
-                    "order_line": order_lines,
-                }
-            )
+            self._create_sale_order(partner_id=self.partner_id.id, reservation_id=self.id, order_lines=order_lines)
         else:
-
-            sale_order = self.env["sale.order"].search(
-                [("reservation_id", "=", self.id)]
-            )
-
-            if not sale_order:
-                raise UserError("There is no sale order for this reservation")
-            sale_lines = self.env["sale.order.line"].search(
-                [("order_id", "=", sale_order.id)]
-            )
-
-            sale_lines.unlink()
-
-            sale_order.write(
-                {
-                    "partner_id": self.partner_id.id,
-                    "reservation_id": self.id,
-                    "order_line": order_lines,
-                    "state": "draft",
-                }
-            )
+            self._update_sale_order(partner_id=self.partner_id.id, reservation_id=self.id, order_lines=order_lines)
         self.state = "confirmed"
 
 
@@ -130,11 +138,8 @@ class Reservation(models.Model):
             "domain": [("reservation_id", "=", self.id)],
         }
         pass
+    def _create_xls_rows(self, selected_ids):
 
-    def print_report(self):
-
-        selected_ids = self.env.context.get("active_ids", [])
-        records = list()
         rows = list()
         for record_id in selected_ids:
             record = self._get_record_by_id(record_id)
@@ -148,8 +153,13 @@ class Reservation(models.Model):
                         line.subtotal,
                     ]
                 )
+        return rows
 
-            records.append(record)
+
+    def print_report(self):
+
+        selected_ids = self.env.context.get("active_ids", [])
+        rows = self._create_xls_rows(selected_ids=selected_ids)
         headers = ["reservation", "client", "produit", "quantite", "totale"]
 
         excel = self._generate_excel(rows=rows, headers=headers)
@@ -201,7 +211,6 @@ class Reservation(models.Model):
 
     def write(self, val_list):
 
-        # if self.state != "draft" and ( val_list["state"] != "draft"):
         if self.state != "draft" and "state" not in val_list.keys():
             val_list["state"] = "draft"
 
