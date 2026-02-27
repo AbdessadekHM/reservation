@@ -71,6 +71,15 @@ class SaleOrder(models.Model):
             reservation.write(data)
             print("normally data should be saved")
 
+
+    def action_draft(self):
+
+        reservation = self.env["reservation.reservation"].search(
+            [('id', '=', self.reservation_id)]
+        )
+        reservation.confirm()
+
+        return super().action_draft()
         
 
     def action_cancel(self):
