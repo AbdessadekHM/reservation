@@ -44,8 +44,17 @@
                     <div class="oe_button_box" name="button_box">
                         <button type="object" name="redirect_to_sales" widget="statinfo" class="oe_stat_button" title="Devices" icon="fa-usd" string="Devices" invisible="not state!='draft'">
 
-                            <field name="total" widget="statinfo" />
-                                
+
+                            <div class="o_stat_info">
+
+                                <field name="currency_id" invisible="1" />
+                                <span class="o_stat_text">total</span>
+                                <span class="o_stat_text">
+
+                                    <field  name="total" widget="monetary" options = "{'currency_field':'currency_id'}" />
+                                </span>
+
+                            </div>
 
                         </button>
 

@@ -29,7 +29,17 @@ class Reservation(models.Model):
     sale_order_ids = fields.One2many("sale.order", "reservation_id")
     line_ids = fields.One2many("reservation.reservation.line", "reservation_id")
     amount_total = fields.Float(compute="_calculate_amount_total", store=True)
-    total = fields.Integer(related="sale_order_ids.amount_total")
+
+
+
+    company_id = fields.Many2one('res.company', store=True, copy=False,
+                                string="Company",
+                                default=lambda self: self.env.user.company_id.id)
+    currency_id = fields.Many2one('res.currency', string="Currency",
+                                 related='company_id.currency_id',
+                                 default=lambda
+                                 self: self.env.user.company_id.currency_id.id)
+    total = fields.Monetary(related="sale_order_ids.amount_total")
 
     def _get_sequence_number(self):
 
@@ -191,7 +201,8 @@ class Reservation(models.Model):
 
     def write(self, val_list):
 
-        if self.state != "draft" and ( "state" not in val_list.keys() or val_list["state"] != "draft"):
+        # if self.state != "draft" and ( val_list["state"] != "draft"):
+        if self.state != "draft" and "state" not in val_list.keys():
             val_list["state"] = "draft"
 
         return super().write(val_list)
